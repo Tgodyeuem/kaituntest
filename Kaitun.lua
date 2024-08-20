@@ -2,7 +2,7 @@ local CommitID = 'f7f653b9be8e4a564dc1e6e46662aa54ded2e0ca'
 function LoadSI(ScriptName,commit)
     if not commit then commit = CommitID end 
     if not commit then commit = 'main' end
-    local scripturl = 'https://raw.githubusercontent.com/Pmtxzzzyeuem/Kaituntsuo/'..commit..'/'..ScriptName
+    local scripturl = 'https://raw.githubusercontent.com/Tgodyeuem/kaituntest/'..commit..'/'..ScriptName
     loadstring(game:HttpGet(scripturl))()
 end
 LoadSI('NewFastAttackLoader.lua')
