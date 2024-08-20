@@ -1879,7 +1879,6 @@ end
 local function CupDoor()
     return workspace.Map.Desert.Burn.Part.CanCollide == false
 end
-AutoSaber = loadstring(game:HttpGet('https://raw.githubusercontent.com/memaybeohub/NewPage/main/AutoSaber.lua'))()--[[function()
     if not Sea1 then 
         --TeleportWorld(1)
         return;
