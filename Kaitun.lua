@@ -5,7 +5,6 @@ function LoadSI(ScriptName,commit)
     local scripturl = 'https://raw.githubusercontent.com/Tgodyeuem/kaituntest/'..commit..'/'..ScriptName
     loadstring(game:HttpGet("scripturl"))()
 end
-LoadSI('StatusGuiV2.lua')
 LoadSI('EnviromentFunctionBF.lua')
 LoadSI('ConfigLoader.lua')
 LoadSI('AutoL.lua')  
