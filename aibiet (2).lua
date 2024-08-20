@@ -2,7 +2,7 @@ local CommitID = 'f7f653b9be8e4a564dc1e6e46662aa54ded2e0ca'
 function LoadSI(ScriptName,commit)
     if not commit then commit = CommitID end 
     if not commit then commit = 'main' end
-    local scripturl = 'https://raw.githubusercontent.com/Pmtxzzzyeuem/Kaituntsuo/'..commit..'/'..ScriptName
+    local scripturl = 'https://raw.githubusercontent.com/Tgodyeuem/kaituntest/'..commit..'/'..ScriptName
     loadstring(game:HttpGet(scripturl))()
 end 
 LoadSI('StatusGuiV2.lua')
@@ -17,7 +17,7 @@ task.spawn(function()
     game.Players.LocalPlayer.Character:FindFirstChild("Fast Attack Delay").Value = 0.2
     game.Players.LocalPlayer.Character:FindFirstChild("Fast Attack").Value = false
     game.Players.LocalPlayer.Data.Level:GetPropertyChangedSignal('Value'):Connect(autoStats) 
-    local CodesHttp = game:HttpGet("https://raw.githubusercontent.com/Pmtxzzzyeuem/Kaituntsuo/main/BloxFruitCodes.lua.txt")
+    local CodesHttp = game:HttpGet("https://raw.githubusercontent.com/Tgodyeuem/kaituntest/main/BloxFruitCodes.lua.txt")
     CodesHttp = CodesHttp:split(" ")
     if not CodesHttp or typeof(CodesHttp) ~= 'table' then return end
     for i,v in pairs(CodesHttp) do 
@@ -28,7 +28,7 @@ task.spawn(function()
 end)  
 if queue_on_teleport then 
     queue_on_teleport([[
-        loadstring(game:HttpGet('https://raw.githubusercontent.com/Pmtxzzzyeuem/Kaituntsuo/main/aibiet.lua'))()
+        loadstring(game:HttpGet('https://raw.githubusercontent.com/Tgodyeuem/kaituntest/main/aibiet (2).lua'))()
     ]])	
 end
 getgenv().SnipeFruit = true
