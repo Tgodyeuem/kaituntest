@@ -2,7 +2,6 @@ local CommitID = '9f1d465ee1e0b266002231869b06ccd227e975b3'
 function LoadSI(ScriptName,commit)
     if not commit then commit = CommitID end 
     if not commit then commit = 'main' end
-    local scripturl = 'https://raw.githubusercontent.com/Tgodyeuem/kaituntest/'..commit..'/'..ScriptName
     loadstring(game:HttpGet("scripturl"))()
 end
 task.spawn(function()
