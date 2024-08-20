@@ -1,8 +1,8 @@
+repeat task.wait() until game:IsLoaded() and game.Players.LocalPlayer 
 local lasttis = 0 
 local JoinedGame = tick() 
 _G.MeleeWait = ''
-print('Ok')
-getgenv().SetContent = function(v1,delayticks)
+SetContent = function(v1,delayticks)
     if not v1 then v1 = '' end 
     if tick()-lasttis > 0 then
         if not _G.CurrentTask then 
@@ -15,13 +15,13 @@ getgenv().SetContent = function(v1,delayticks)
         if _G.MeleeTask and _G.MeleeTask ~= '' and _G.MeleeTask ~='None' then 
             aSet1 = _G.MeleeTask
         end
-        if ContentSet then ContentSet(v1,tostring(aSet1),tostring(_G.MeleeWait)) else print('Not content set') end
+        if ContentSet then ContentSet(v1,tostring(aSet1),tostring(_G.MeleeWait)) end
     end 
     if delayticks then 
         lasttis = tick()+delayticks
     end
 end  
-getgenv().SetMeleeWait = function(v1Name,v1Value)
+SetMeleeWait = function(v1Name,v1Value)
     _G.MeleeWait = " | Waitting "..tostring(v1Name).." hit "..tostring(v1Value).." mastery." 
 end
 _G.ServerData = {} 
@@ -48,7 +48,6 @@ if not game.Players.LocalPlayer.Team then
         )
     until game.Players.LocalPlayer.Team ~= nil 
 end
-print('Loaded Team')
 local RunService= game:GetService("RunService")
 function RemoveLevelTitle(v)
     return tostring(tostring(v):gsub(" %pLv. %d+%p", ""):gsub(" %pRaid Boss%p", ""):gsub(" %pBoss%p", ""))
@@ -60,9 +59,8 @@ if game.Workspace:FindFirstChild("MobSpawns") then
         end
     end
 end
-_G.SavedConfig = type(_G.SavedConfig) == 'table' and _G.SavedConfig or {}
---loadstring(game:HttpGet('https://raw.githubusercontent.com/Tgodyeuem/kaituntest/main/FastAttackLoading.lua'))()
-loadstring(game:HttpGet('https://raw.githubusercontent.com/Tgodyeuem/kaituntest/main/HopLoader.lua'))()
+--loadstring(game:HttpGet('https://raw.githubusercontent.com/memaybeohub/NewPage/main/FastAttackLoading.lua'))()
+loadstring(game:HttpGet('https://raw.githubusercontent.com/memaybeohub/NewPage/main/HopLoader.lua'))()
 function GetDistance(target1, taget2)
     if not taget2 then
         pcall(function()
@@ -92,18 +90,6 @@ function getBlueGear()
     if game.workspace.Map:FindFirstChild("MysticIsland") then
         for i, v in pairs(game.workspace.Map.MysticIsland:GetChildren()) do
             if v:IsA("MeshPart") and v.MeshId == "rbxassetid://10153114969" then --and not v.CanCollide then
-                return v
-            end
-        end
-    end
-end 
-function getHighestPoint()
-    if not game.workspace.Map:FindFirstChild("MysticIsland") then
-        return nil
-    end
-    for i, v in pairs(game:GetService("Workspace").Map.MysticIsland:GetDescendants()) do
-        if v:IsA("MeshPart") then
-            if v.MeshId == "rbxassetid://6745037796" then
                 return v
             end
         end
@@ -455,7 +441,7 @@ end
 
 function checkFruit1MWS()
     for i,v in pairs(game.workspace:GetChildren()) do 
-        if v.Name:find('Fruit') and getPriceFruit(ReturnFruitNameWithId(v)) >= 1000000 and getPriceFruit(ReturnFruitNameWithId(v)) < 2500000 then 
+        if v.Name:find('Fruit') and getPriceFruit(ReturnFruitNameWithId(v)) >= 1000000 and getPriceFruit(ReturnFruitNameWithId(v)) < 1800000 then 
             return v 
         end 
     end
@@ -464,12 +450,12 @@ function checkFruit1M(in5)
     local function fruitsea3bp()
         local n3
         for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do 
-            if v.Name:find('Fruit') and getPriceFruit(ReturnFruitNameWithId(v)) >= 1000000 and getPriceFruit(ReturnFruitNameWithId(v)) < 2500000 then 
+            if v.Name:find('Fruit') and getPriceFruit(ReturnFruitNameWithId(v)) >= 1000000 and getPriceFruit(ReturnFruitNameWithId(v)) < 1800000 then 
                 n3 = v 
             end 
         end 
         for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do 
-            if v.Name:find('Fruit') and getPriceFruit(ReturnFruitNameWithId(v)) >= 1000000 and getPriceFruit(ReturnFruitNameWithId(v)) < 2500000 then 
+            if v.Name:find('Fruit') and getPriceFruit(ReturnFruitNameWithId(v)) >= 1000000 and getPriceFruit(ReturnFruitNameWithId(v)) < 1800000 then 
                 n3 = v 
             end 
         end 
@@ -480,7 +466,7 @@ function checkFruit1M(in5)
         local FOUNDDF 
         local MaxValue = math.huge 
         for i,v in pairs(_G.ServerData["Inventory Items"]) do 
-            if v.Value and (v.Value >= 1000000 and v.Value < 2500000 ) and v.Value < MaxValue then   
+            if v.Value and v.Value >= 1000000 and v.Value < MaxValue then   
                 MaxValue = v.Value 
                 FOUNDDF = v.Name
             end
@@ -522,11 +508,9 @@ function eatFruit(fruitsSnipes,includedInventory)
                         repeat 
                             task.wait()
                             EquipWeaponName(Ind)
-                        until game.Players.LocalPlayer.Character:FindFirstChild("EatRemote")
-                        print('Eating Fruit')
+                        until game.Players.LocalPlayer.Character:FindFirstChild("EatRemote", true)
                         game.Players.LocalPlayer.Character:FindFirstChild("EatRemote", true):InvokeServer()
                         _G.CurrentTask = ''
-                        print('Changed Task.')
                     end
                 end
             end
@@ -577,8 +561,8 @@ function CheckMessage(v1)
         return v1
     elseif v1:find('factory') then 
         return v1
-    elseif v1 == "Loading..." then 
-        print('Dimension Loading ⚠️⚠️⚠️|',v1,v1 == "Loading...")
+    elseif v1:find('Loading...') then 
+        print('Dimension Loading ⚠️⚠️⚠️|',v1)
         _G.DimensionLoading = true
     elseif v1:find('Good job') then 
         print('Pirate raid Cancelled!')
@@ -687,9 +671,6 @@ local function LoadPlayer()
                 game.Players.LocalPlayer.Backpack.ChildAdded:Connect(function(v)
                     _G.ServerData["PlayerBackpack"][v.Name] = v 
                     task.delay(3,function()
-                        if v.Name == 'Red Key' then 
-                            print('DOugh chip unlocked: ',game.ReplicatedStorage.Remotes.CommF_:InvokeServer("CakeScientist", "Check"))
-                        end
                         if v.Name:find('Fruit') then  
                             if not Storef(v) then 
                                 local nextid = #_G.ServerData["PlayerBackpackFruits"]
@@ -728,10 +709,6 @@ local function LoadPlayer()
                         end
                     end 
                 end)
-                wait(5)
-                game.Players.LocalPlayer.Character.PrimaryPart:GetPropertyChangedSignal("Position"):Connect(function()
-                    _G.PlayerLastMoveTick = tick()
-                end)
             end
             task.spawn(function()
                 if EquipAllWeapon then 
@@ -739,7 +716,7 @@ local function LoadPlayer()
                 end
             end)
         end
-        
+
     end
 end
 function AddNoknockback(enemy)
@@ -756,7 +733,7 @@ function AddNoknockback(enemy)
         end
     end)
 end 
-getgenv().TushitaQuest = game.ReplicatedStorage:WaitForChild("Remotes"):WaitForChild("CommF_"):InvokeServer("TushitaProgress")
+
 game.workspace.Characters.ChildAdded:Connect(LoadPlayer)
 _G.Ticktp = tick() 
 local tween_s = game:service "TweenService"
@@ -768,9 +745,7 @@ function Tweento(targetCFrame)
         if not TweenSpeed or type(TweenSpeed) ~= "number" then
             TweenSpeed = 325
         end
-        if _G.SavedConfig and _G.SavedConfig["Tween Speed"] and typeof(_G.SavedConfig["Tween Speed"]) == 'number' then 
-            TweenSpeed = _G.SavedConfig["Tween Speed"]
-        end
+        
         local targetPos = targetCFrame.Position
         local Distance =
             (targetPos -
@@ -800,17 +775,6 @@ function Tweento(targetCFrame)
                 game.Players.LocalPlayer.Character.Humanoid.Health = 0
             end
         end
-        task.spawn(function()
-            if not _G.SavedConfig['Same Y Tween'] then return end
-            if (game.Players.LocalPlayer.Character.PrimaryPart.CFrame.Y < targetCFrame.Y-5 or game.Players.LocalPlayer.Character.PrimaryPart.CFrame.Y > targetCFrame.Y+5) 
-            and (not bmg)  then 
-                if _G.tween then 
-                    _G.tween:Cancel()
-                    _G.tween = nil 
-                end
-                game.Players.LocalPlayer.Character.PrimaryPart.CFrame = CFrame.new(game.Players.LocalPlayer.Character.PrimaryPart.CFrame.X,(targetCFrame.Y > 20 and targetCFrame.Y or targetCFrame.Y+30),game.Players.LocalPlayer.Character.PrimaryPart.CFrame.Z)
-            end
-        end)
         local tweenfunc = {}
         local info =
             TweenInfo.new(
@@ -1028,15 +992,6 @@ function addCheckSkill(v)
         end
     end
 end
-getgenv().GetPing = function()
-    local ping = game:GetService("Stats").Network.ServerStatsItem["Data Ping"]:GetValueString()
-    ping = ping:gsub("CV", "")
-    ping = ping:gsub("%%d", "")
-    ping = ping:gsub(" ", "")
-    ping = ping:gsub("(%d%)", "")
-    ping = ping:split("(")[1]
-    return tonumber(ping)
-end
 function KillNigga(MobInstance) 
     local LS,LS2 = pcall(function()
         if IsPlayerAlive() and
@@ -1045,8 +1000,7 @@ function KillNigga(MobInstance)
         then
             local mmas = GetMidPoint(MobInstance.Name, MobInstance.HumanoidRootPart)
             local LockCFrame
-            local KillingBoss
-            if mmas and not string.find(MobInstance:FindFirstChildOfClass('Humanoid').DisplayName, "Boss") and MobInstance.Humanoid.MaxHealth < 130000 then
+            if mmas and not string.find(MobInstance.Name, "Boss") and MobInstance.Humanoid.MaxHealth < 130000 then
                 LockCFrame = CFrame.new(mmas)
             else
                 LockCFrame = MobInstance.HumanoidRootPart.CFrame
@@ -1069,58 +1023,29 @@ function KillNigga(MobInstance)
             ]]
             SetContent('Killing '..tostring(N_Name))
             --[[
-            if IsBoss(MobInstance) then 
+                        if IsBoss(MobInstance) then 
                 KillingBoss = true 
             end
-            ]]
-            
-            task.spawn(function()
-                if not KillingBoss and CheckEnabling and (CheckEnabling('High Ping Hop') or CheckEnabling("Player Nearing Hop")) then 
-                    if not _G.PirateRaidTick or tick()-_G.PirateRaidTick >= 90 then 
-                        if GetPing and GetPing() >= 1000 then 
-                            task.wait(60,function()
-                                if GetPing and GetPing() >= 700 then 
-                                    HopServer(10,true,'Ping is too high.')
-                                end
-                            end)
-                        end
-                        local bbxz 
-                        if Exploiters then 
-                            for name__,v in Exploiters  do 
-                                bbxz = workspace.Characters:FindFirstChild(name__)  
-                                if bbxz then 
-                                    if GetDistance(bbxz.PrimaryPart) < 500 then 
-                                        HopServer(10,true,'Cheater nearing')
-                                    end
-                                end
-                            end
-                        else 
-                            print(' not ',Exploiters)
-                        end
-                    end
-                end
-            end)
-            --[[
-                        
+            if not KillingBoss then
+                --CheckReqHop(Nasga.HumanoidRootPart.CFrame,Nasga)
+            end
             for i, v in pairs({
-                "Deandre",
-                "Urban",
-                "Diablo"
+                "Deandre [Lv. 1750]",
+                "Urban [Lv. 1750]",
+                "Diablo [Lv. 1750]"
             }) do
-                if v == MobInstance.Name then
+                if RemoveLevelTitle(v) == RemoveLevelTitle(MobInstance.Name) then
                     KillingBoss = true
                 end
             end
-            ]]
+            ]] 
             local BringMobSuccess
             task.delay(7.5,function() 
                 BringMobSuccess = true
             end)
             task.delay(.01 ,function()
-                repeat task.wait() until MobInstance.PrimaryPart and GetDistance(MobInstance.PrimaryPart) < 150 
+                repeat task.wait() until GetDistance(MobInstance.PrimaryPart) < 150 
                 addCheckSkill(MobInstance)
-                wait()
-                sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", 3000+300)
                 if BringMob(MobInstance, LockCFrame) then 
                     task.wait(.275)
                     BringMobSuccess = true 
@@ -1137,16 +1062,35 @@ function KillNigga(MobInstance)
                 _G.KillAuraConnection:Disconnect()
                 _G.KillAuraConnection = nil 
             end 
+            sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", 3000+300)
             local CurrentPlrHum = game.Players.LocalPlayer.Character:FindFirstChildOfClass('Humanoid')
+            task.spawn(function()
+                local acc5 = getupvalues(require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework))[2].activeController
+                if not acc5 or not acc5.equipped then 
+                    repeat task.wait()
+                    until acc5 and acc5.equipped
+                end
+                for i,v in pairs(acc5.data) do  
+                    if typeof(v) == 'function' then 
+                        hookfunction(v,function() end )
+                    end
+                end
+            end)
             repeat
+                task.wait() 
                 if CurrentPlrHum and CurrentPlrHum.Health > 0 then 
                     if not (_G.ServerData["PlayerBackpack"]['Sweet Chalice'] or _G.ServerData["PlayerBackpack"]["God's Chalice"]) or ((_G.ServerData["PlayerBackpack"]['Sweet Chalice'] or _G.ServerData["PlayerBackpack"]["God's Chalice"]) and CurrentPlrHum.Health >(CurrentPlrHum.MaxHealth*31)/100) then
-                        KillingMob = true
-                        EquipWeapon()
-                        TweenKill(MobInstance)  
-                        if BringMobSuccess then 
-                            _G.UseFAttack = true 
-                        end  
+                        if not _G.DogdeUntil or _G.DogdeUntil < tick() then 
+                            KillingMob = true
+                            EquipWeapon()
+                            TweenKill(MobInstance)  
+                            if BringMobSuccess then 
+                                _G.UseFAttack = true 
+                            end  
+                        else 
+                            _G.UseFAttack = false 
+                            game.Players.LocalPlayer.Character.PrimaryPart.CFrame = MobInstance.PrimaryPart.CFrame * CFrame.new(0,300,0)
+                        end
                     elseif (_G.ServerData["PlayerBackpack"]['Sweet Chalice'] or _G.ServerData["PlayerBackpack"]["God's Chalice"]) and CurrentPlrHum.Health <= (CurrentPlrHum.MaxHealth*30)/100 then 
                         local OldCFrame = game.Players.LocalPlayer.Character.PrimaryPart.CFrame
                         repeat 
@@ -1157,16 +1101,14 @@ function KillNigga(MobInstance)
                         MobInstance.Humanoid.Health <= 0 or not IsPlayerAlive()
                         Tweento(OldCFrame)
                     end
+                        
                 else 
                     _G.UseFAttack = false
                     wait(1)
-                    pcall(function()
-                        CurrentPlrHum = game.Players.LocalPlayer.Character:FindFirstChildOfClass('Humanoid')
-                    end)
                 end 
-                task.wait()
             until not MobInstance or not MobInstance:FindFirstChildOfClass("Humanoid") or not MobInstance:FindFirstChild("HumanoidRootPart") or
-            MobInstance.Humanoid.Health <= 0 or not IsPlayerAlive()  
+            MobInstance.Humanoid.Health <= 0 or not IsPlayerAlive() or 
+                CheckIsRaiding()
             SetContent('...')
             KillingMobTick = 0
             KillingMob = false
@@ -1295,7 +1237,7 @@ function BringMob(TAR,V5)
                 v.Name == TAR.Name and
                     (V6.Position - v.HumanoidRootPart.Position).Magnitude < 340 and
                     (isnetworkowner(v.HumanoidRootPart)) and
-                    v:FindFirstChildOfClass('Humanoid').MaxHealth < 100000
+                    v.Humanoid.MaxHealth < 100000
             then
                 task.spawn(function() 
                     v.Humanoid:ChangeState(10)
@@ -1305,6 +1247,7 @@ function BringMob(TAR,V5)
                     v.Humanoid.WalkSpeed = 0
                     v.Humanoid.JumpPower = 0 
                     v.Humanoid.AutoRotate = false 
+                    
                 end)
             end
         end
@@ -1365,7 +1308,7 @@ function CheckSafeZone(p)
     for i, v in pairs(game:GetService("Workspace")["_WorldOrigin"].SafeZones:GetChildren()) do
         if v:IsA("Part") then
             if
-                GetDistance(v,p.PrimaryPart) <= 200 and
+                GetDistance(v,p.PrimaryPart) <= 400 and
                     p.Humanoid.Health / p.Humanoid.MaxHealth >= 90 / 100
              then
                 return true
@@ -1405,9 +1348,9 @@ function KillPlayer(PlayerName)
                         task.wait()
                         game.Players.LocalPlayer.Character.PrimaryPart.CFrame = tRoot.CFrame * CFrame.new(0,100,10)
                         _G.UseFAttack = false
-                    until tick()-getNeartick > 3 and tick()-getNeartick < 100
+                    until tick()-getNeartick > 5 and tick()-getNeartick < 100
                     game.Players.LocalPlayer.Character.PrimaryPart.CFrame = tRoot.CFrame * CFrame.new(0,0,10)
-                elseif tick()-getNeartick > 3 and tick()-getNeartick < 100 then 
+                elseif tick()-getNeartick > 5 and tick()-getNeartick < 100 then 
                     KillingMob = true
                     EquipWeapon() 
                     FastMob = false
@@ -1419,7 +1362,7 @@ function KillPlayer(PlayerName)
                         
                     else
                         task.spawn(function()
-                            game.Players.LocalPlayer.Character.PrimaryPart.CFrame = tRoot.CFrame * CFrame.new(0,2,2.5)
+                            game.Players.LocalPlayer.Character.PrimaryPart.CFrame = tRoot.CFrame * CFrame.new(0,0,2.5)
                         end)
                         task.spawn(function()
                             for i,v in game.workspace.Enemies:GetChildren() do v.Humanoid.Health = 0 end
@@ -1736,19 +1679,19 @@ end
 function FarmMobByLevel(level)
     if not level then  
         level = game.Players.LocalPlayer.Data.Level.Value 
+        if Sea1 and level >= 700 then  
+            level = 650 
+            if game.ReplicatedStorage.Remotes.CommF_:InvokeServer("DressrosaQuestProgress", "Dressrosa") == 0 then 
+                TeleportWorld(2)
+            end
+        elseif Sea2 and level >= 1500 then  
+            level = 1450
+            if game.ReplicatedStorage.Remotes.CommF_:InvokeServer("ZQuestProgress", "Zou") == 0 then 
+                TeleportWorld(3)
+            end
+             
+        end
     end 
-    if Sea1 and level >= 700 then  
-        level = 650 
-        if game.ReplicatedStorage.Remotes.CommF_:InvokeServer("DressrosaQuestProgress", "Dressrosa") == 0 then 
-            TeleportWorld(2)
-        end
-    elseif Sea2 and level >= 1500 then  
-        level = 1450
-        if game.ReplicatedStorage.Remotes.CommF_:InvokeServer("ZQuestProgress", "Zou") == 0 then 
-            TeleportWorld(3)
-        end
-         
-    end
     if _G.KillAuraConnection then 
         _G.KillAuraConnection:Disconnect()
         _G.KillAuraConnection = nil 
@@ -1846,18 +1789,14 @@ end
 function collectAllFruit_Store()
     if _G.ServerData['Workspace Fruits'] then 
         for i,v in pairs(_G.ServerData['Workspace Fruits']) do 
-            if v and not _G.ServerData['Inventory Items'][ReturnFruitNameWithId(v)] then 
-                SetContent('Picking up '..getRealFruit(v))
-                Tweento(v.Handle.CFrame)
-                task.wait(.1) 
-                task.delay(3,function()
-                    if _G.CurrentTask == 'Collect Fruit' then 
-                        _G.CurrentTask = ''
-                    end
-                end)
-            elseif _G.ServerData['Inventory Items'][ReturnFruitNameWithId(v)] then 
-                _G.ServerData['Workspace Fruits'][i] = nil
-            end
+            SetContent('Picking up '..getRealFruit(v))
+            Tweento(v.Handle.CFrame)
+            task.wait(.1) 
+            task.delay(3,function()
+                if _G.CurrentTask == 'Collect Fruit' then 
+                    _G.CurrentTask = ''
+                end
+            end)
         end
     end
 end 
@@ -1932,14 +1871,14 @@ _G.ServerData['Workspace Fruits'] = {}
 _G.ServerData['Server Bosses'] = {}
 _G.ServerData["PlayerBackpack"] = {}
 for i,v in pairs(game.workspace.Enemies:GetChildren()) do 
-    task.spawn(LoadBoss,v)
+    LoadBoss(v) 
 end
 for i,v in pairs(game.ReplicatedStorage:GetChildren()) do 
-    task.spawn(function()
-        if v:FindFirstChild('Humanoid') then 
+    if v:FindFirstChild('Humanoid') then 
+        task.spawn(function()
             LoadBoss(v)
-        end
-    end)
+        end)
+    end
 end 
 function CheckRaceVer()
     local v113 = game.ReplicatedStorage.Remotes.CommF_:InvokeServer("Wenlocktoad", "1")
@@ -1957,45 +1896,7 @@ function CheckRaceVer()
 end 
 workspace.Enemies.ChildAdded:Connect(LoadBoss)
 game.ReplicatedStorage.ChildAdded:Connect(LoadBoss) 
-local FreeFallTime = {}
-getgenv().Exploiters = {}
-function checkExploiting(playerInstance)
-    if not playerInstance or playerInstance.Name == game.Players.LocalPlayer.Character.Name then return end 
-    local humanoid = playerInstance.Character and playerInstance.Character:WaitForChild("Humanoid")
-    if humanoid and humanoid:GetState() == Enum.HumanoidStateType.Freefall then            
-        if not FreeFallTime[playerInstance.Name] then 
-            FreeFallTime[playerInstance.Name] = tick()
-            repeat
-                task.wait()
-            until humanoid:GetState() ~= Enum.HumanoidStateType.Freefall or tick()-FreeFallTime[playerInstance.Name] >= 20 
-            if tick()-FreeFallTime[playerInstance.Name] >= 20 then 
-                Exploiters[playerInstance.Name] = true 
-            end
-        end 
-    elseif FreeFallTime[playerInstance.Name] then 
-        if tick()-FreeFallTime[playerInstance.Name] > 20 then 
-            Exploiters[playerInstance.Name] = true 
-        end
-    end
-    humanoid.StateChanged:Connect(function(_oldState, newState)
-        if humanoid:GetState() == Enum.HumanoidStateType.Freefall then            
-            if not FreeFallTime[playerInstance.Name] then 
-                FreeFallTime[playerInstance.Name] = tick()
-            end 
-        elseif FreeFallTime[playerInstance.Name] then 
-            if tick()-FreeFallTime[playerInstance.Name] > 20 then 
-                Exploiters[playerInstance.Name] = true 
-                FreeFallTime[playerInstance.Name] = nil
-            else
-                FreeFallTime[playerInstance.Name] = tick()
-            end
-        end
-    end)    
-end
-for i,v in game.Players:GetChildren() do 
-    task.spawn(checkExploiting,v)
-end
-game.Players.ChildAdded:Connect(checkExploiting)
+
 local Melee_and_Price = {
     ["Black Leg"] = {Beli = 150000, Fragment = 0},
     ["Fishman Karate"] = {Beli = 750000, Fragment = 0},
@@ -2068,6 +1969,7 @@ function getMeleeLevelValues()
     task.spawn(function()
         if not _G.Config then repeat task.wait() until _G.Config end
         if identifyexecutor() == 'Wave' or not _G.Config["Melee Level Values"] then _G.Config["Melee Level Values"] = {} end
+        print("Melee Values ",_G.Config["Melee Level Values"])
         repeat 
             if identifyexecutor() == 'Wave' or not _G.Config["Melee Level Values"] then _G.Config["Melee Level Values"] = {} end
             print("Melee Values ",_G.Config["Melee Level Values"])
@@ -2102,29 +2004,26 @@ getMeleeLevelValues()
 _G.CheckAllMelee = true
 function ReloadFrutis()    
     SetContent('Checking Server Fruits...')
-    task.spawn(function()
-        for i,v in pairs(game.workspace:GetChildren()) do 
-            if v.Name:find('Fruit') and not table.find(_G.ServerData['Workspace Fruits'],v) then 
-                pcall(function()
-                    local vN = ReturnFruitNameWithId(v)
-                    if not _G.ServerData['Inventory Items'][vN] then
-                        print(vN,'new fruit')
-                        table.insert(_G.ServerData['Workspace Fruits'],v)  
-                        local selfs 
-                        selfs = v:GetPropertyChangedSignal('Parent'):Connect(function()
-                            if v.Parent ~= game.workspace then 
-                                _G.ServerData['Workspace Fruits'] = {}
-                                selfs:Disconnect()
-                                ReloadFrutis()
-                            end
-                        end)
-                    else
-                        print("Skipped "..tostring(vN).." because already stored.")
-                    end
-                end)
-            end 
-        end
-    end)
+    for i,v in pairs(game.workspace:GetChildren()) do 
+        if v.Name:find('Fruit') and not table.find(_G.ServerData['Workspace Fruits'],v) then 
+            pcall(function()
+                local vN = ReturnFruitNameWithId(v)
+                if not _G.ServerData['Inventory Items'][vN] then
+                    table.insert(_G.ServerData['Workspace Fruits'],v)  
+                    local selfs 
+                    selfs = v:GetPropertyChangedSignal('Parent'):Connect(function()
+                        if v.Parent ~= game.workspace then 
+                            _G.ServerData['Workspace Fruits'] = {}
+                            selfs:Disconnect()
+                            ReloadFrutis()
+                        end
+                    end)
+                else
+                    print("Skipped "..tostring(vN).." because already stored.")
+                end
+            end)
+        end 
+    end
 end  
 function CheckAnyPlayersInCFrame(CFrameCheck, MinDistance)
     local CurrentFound
@@ -2335,7 +2234,7 @@ end
 
 function LoadChest()
     for _, v in pairs(workspace:GetDescendants()) do
-        if string.find(v.Name, 'Chest') and v.Parent then
+        if string.find(v.Name, 'Chest') then
             task.spawn(function()
                 AddChest(v)
                 local parentFullName = tostring(v.Parent:GetFullName())
@@ -2634,14 +2533,11 @@ RunService.Heartbeat:Connect(function()
         else
             AddBodyVelocity(false)
         end 
-        if _G.PlayerLastMoveTick and tick()-_G.PlayerLastMoveTick >= 5*60 then 
-            game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, game.JobId, game.Players.LocalPlayer)  
-        end
         local SetText = ""
         if _G.LocalPlayerStatusParagraph then 
             SetText = "Level: "..tostring(_G.ServerData['PlayerData'].Level)..
                     "\nBeli: "..tostring(_G.ServerData['PlayerData'].Beli)..
-                    "\nFragment: "..tostring(_G.ServerData['PlayerData'].Fragments)..
+                    "\nFragment"..tostring(_G.ServerData['PlayerData'].Fragments)..
                     "\nRace: "..tostring(_G.ServerData['PlayerData'].Race).." "..tostring(_G.ServerData['PlayerData'].RaceVer)..
                     "\nElite Hunted: "..tostring(_G.ServerData['PlayerData']["Elite Hunted"])..
                     "\nDevil Fruit: "..tostring((_G.ServerData['PlayerData'].DevilFruit ~= '' and _G.ServerData['PlayerData'].DevilFruit or "None"))
@@ -2736,9 +2632,6 @@ RunService.Heartbeat:Connect(function()
         if _G.ServerData["Inventory Items"]['Cursed Dual Katana'] and _G.CDKQuest then 
             _G.CDKQuest = nil 
         end
-        if not _G.RaceV4Progress or (_G.RaceV4Progress ~= 4 and _G.RaceV4Progress ~= 5) then 
-            _G.RaceV4Progress = game.ReplicatedStorage.Remotes.CommF_:InvokeServer("RaceV4Progress", "Check") 
-        end
         if _G.ServerData["PlayerData"].Beli >= 5500000 then 
             game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuyHaki","Geppo")
             -- Buy Buso Haki
@@ -2808,7 +2701,7 @@ getrawgame.__namecall = newcclosure(function(...)
 	return oldraw(...)
 end)
 ]]
-LoadPlayer()
-task.spawn(SetContent,"😇")
+SetContent('😇')
 print('Loaded Success Full!')
 _G.EnLoaded = true   
+LoadPlayer()
