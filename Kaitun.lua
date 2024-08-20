@@ -28,7 +28,7 @@ end)
 ____QueueOnTeleport = queue_on_teleport or queue_on_tp or function() end
 if ____QueueOnTeleport then 
     ____QueueOnTeleport([[
-        --loadstring(game:HttpGet("https://raw.githubusercontent.com/Pmtxzzzyeuem/Kaituntsuo/main/Kaitun.lua"))()
+        --loadstring(game:HttpGet("https://raw.githubusercontent.com/Tgodyeuem/kaituntest/main/Kaitun.lua"))()
     ]])
 end 
 getgenv().SnipeFruit = true
