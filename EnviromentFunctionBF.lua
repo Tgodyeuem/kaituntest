@@ -61,7 +61,7 @@ if game.Workspace:FindFirstChild("MobSpawns") then
     end
 end
 _G.SavedConfig = type(_G.SavedConfig) == 'table' and _G.SavedConfig or {}
---loadstring(game:HttpGet('https://raw.githubusercontent.com/Tgodyeuem/kaituntest/main/FastAttackLoading.lua.lua'))()
+--loadstring(game:HttpGet('https://raw.githubusercontent.com/Tgodyeuem/kaituntest/main/FastAttackLoading.lua'))()
 loadstring(game:HttpGet('https://raw.githubusercontent.com/Tgodyeuem/kaituntest/main/HopLoader.lua'))()
 function GetDistance(target1, taget2)
     if not taget2 then
