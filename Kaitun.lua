@@ -16,7 +16,7 @@ task.spawn(function()
 end)
 task.spawn(function()
     game.Players.LocalPlayer.Data.Level:GetPropertyChangedSignal('Value'):Connect(autoStats) 
-    local CodesHttp = game:HttpGet("https://raw.githubusercontent.com/Pmtxzzzyeuem/Kaituntsuo/main/BloxFruitCodes.lua")
+    local CodesHttp = game:HttpGet("https://raw.githubusercontent.com/Tgodyeuem/kaituntest/main/BloxFruitCodes.lua")
     CodesHttp = CodesHttp:split(" ")
     if not CodesHttp or typeof(CodesHttp) ~= 'table' then return end
     for i,v in pairs(CodesHttp) do 
