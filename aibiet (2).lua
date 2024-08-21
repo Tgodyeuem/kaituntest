@@ -76,5 +76,7 @@ while task.wait() do
         end 
     else 
         AutoL()
+    else
+        Checks()
     end
 end
