@@ -1,4 +1,5 @@
 local CommitID = '6626b37924005d6090d09808aaaaf570116a3590'
+local CommitID =  
 function LoadSI(ScriptName,commit)
     if not commit then commit = CommitID end 
     if not commit then commit = 'main' end
