@@ -76,7 +76,5 @@ while task.wait() do
         end 
     else 
         AutoL()
-    else
-        ConfigLoader()
     end
 end
