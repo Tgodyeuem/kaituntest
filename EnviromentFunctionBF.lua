@@ -59,7 +59,7 @@ if game.Workspace:FindFirstChild("MobSpawns") then
         end
     end
 end
---loadstring(game:HttpGet('https://raw.githubusercontent.com/memaybeohub/NewPage/main/FastAttackLoading.lua'))()
+--loadstring(game:HttpGet('https://raw.githubusercontent.com/Tgodyeuem/kaituntest/main/FastAttackLoading.lua'))()
 loadstring(game:HttpGet('https://raw.githubusercontent.com/memaybeohub/NewPage/main/HopLoader.lua'))()
 function GetDistance(target1, taget2)
     if not taget2 then
